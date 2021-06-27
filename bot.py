@@ -1,96 +1,20 @@
-import telebot
 import config
 import importlib
+from init import *
+import time
+import threading
 
-bot = telebot.TeleBot(token=config.TOKEN)
+def life_support():
+    while True:
+        for user in users:
+            check_params(user)
 
-users = []
-locations = [
-    {
-        "id": "street",
-        "file": "locations.street",
-        "name": "Улица"
-    },
-    {
-        "id": "home",
-        "file": "locations.home",
-        "name": "Домик"
-    },
-    {
-        "id": "med",
-        "file": "locations.med",
-        "name": "Медпункт"
-    },
-    {
-        "id": "korostel",
-        "file": "locations.korostel",
-        "name": "Коростель"
-    },
-    {
-        "id": "hunter_house",
-        "file": "locations.hunter_house",
-        "name": "Дом охотника"
-    }
-]
+            # еда
+            if user['eat_points'] != 0:
+                user['eat_points'] -= 1
 
-def find_users_by_location(location_id):
-    users_in_location = []
-
-    for user in users:
-        if 'location' in user and user['location'] == location_id:
-            users_in_location.append(user)
-
-    return users_in_location
-
-def find_location(location_id):
-    for location in locations:
-        if location['id'] == location_id:
-            return location
-    return None
-
-def find_user(chat_id):
-    for user in users:
-        if user['chat_id'] == chat_id:
-            return user
-    return None
-
-def init(chat_id):
-    user = {
-        "chat_id": chat_id
-    }
-
-    bot.send_message(chat_id, "Добро пожаловать в игру! Напиши свое имя...")
-
-    users.append(user)
-    return user
-
-def location_list():
-    descrition = 'Локации:\n'
-
-    for location in locations:
-        descrition += '- {}: {}'.format(location['id'], location['name'])
-
-def save_name(user, name):
-    user["name"] = name
-    user["location"] = "street"
-    bot.send_message(user["chat_id"], """Рад познакомиться с тобой, {}! Чтобы перейти в локацию, напиши /goto ЛОКАЦИЯ.
-    
-    """.format(location_list(), name))
-
-def change_location_by_id(user, location_id):
-    location = find_location(location_id)
-
-    if not location:
-        bot.send_message(user["chat_id"], "Такого места нет.")
-    else:
-        neighbors = find_users_by_location(location_id)
-
-        for neighbor in neighbors:
-            bot.send_message(neighbor['chat_id'], "{} теперь в {}!".format(user['name'], location["name"]))
-
-        user['location'] = location_id
-        bot.send_message(user["chat_id"], "Теперь вы находись в {}.".format(location['name']))
-
+        save()
+        time.sleep(5 * 60)
 
 @bot.message_handler(content_types=['text'])
 def process_message(message):
@@ -103,6 +27,8 @@ def process_message(message):
     if "name" not in user:
         save_name(user, message.text)
         return
+
+    check_params(user)
 
     if "/goto" in message.text:
         try:
@@ -123,5 +49,9 @@ def process_message(message):
     except Exception as e:
         print(e)
 
+    save()
+
+life_thread = threading.Thread(target=life_support)
+life_thread.start()
+
 bot.polling()
-#Aboba

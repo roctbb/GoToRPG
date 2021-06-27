@@ -88,6 +88,8 @@ def check_params(user):
         user['inventory'] = ["waterball"]
     if "states" not in user:
         user['states'] = []
+    if "eat_points" not in user:
+        user["eat_points"] = 100
 
 
 def init(chat_id):
@@ -132,5 +134,8 @@ def change_location_by_id(user, location_id):
         bot.send_message(user["chat_id"], "Теперь вы находитесь в {}.".format(location['name']))
         bot.send_message(user["chat_id"], description)
 
-
-
+def save():
+    with open('users.json', 'w') as file:
+        json.dump(users, file)
+    with open('locations.json', 'w') as file:
+        json.dump(locations, file)
