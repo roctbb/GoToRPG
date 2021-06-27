@@ -88,6 +88,8 @@ def check_params(user):
         user['inventory'] = ["waterball"]
     if "states" not in user:
         user['states'] = []
+    if "eat_points" not in user:
+        user["eat_points"] = 100
 
 
 def init(chat_id):
