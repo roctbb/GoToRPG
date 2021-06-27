@@ -18,7 +18,7 @@ locations = [
     },
     {
         "id": "med",
-        "file": "locations.med",
+        "file": "locations.med_house",
         "name": "Медпункт"
     },
     {
