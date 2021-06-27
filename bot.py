@@ -10,6 +10,26 @@ locations = [
         "id": "street",
         "file": "locations.street",
         "name": "Улица"
+    },
+    {
+        "id": "home",
+        "file": "locations.home",
+        "name": "Домик"
+    },
+    {
+        "id": "med",
+        "file": "locations.med",
+        "name": "Медпункт"
+    },
+    {
+        "id": "korostel",
+        "file": "locations.korostel",
+        "name": "Коростель"
+    },
+    {
+        "id": "hunter_house",
+        "file": "locations.hunter_house",
+        "name": "Дом охотника"
     }
 ]
 
@@ -44,13 +64,18 @@ def init(chat_id):
     users.append(user)
     return user
 
+def location_list():
+    descrition = 'Локации:\n'
+
+    for location in locations:
+        descrition += '- {}: {}'.format(location['id'], location['name'])
+
 def save_name(user, name):
     user["name"] = name
     user["location"] = "street"
     bot.send_message(user["chat_id"], """Рад познакомиться с тобой, {}! Чтобы перейти в локацию, напиши /goto ЛОКАЦИЯ.
     
-    Локации:
-    - street - улица""".format(name))
+    """.format(location_list(), name))
 
 def change_location_by_id(user, location_id):
     location = find_location(location_id)
@@ -92,7 +117,10 @@ def process_message(message):
     location = find_location(user['location'])
     users = find_users_by_location(user['location'])
 
-    location_module = importlib.import_module(location['file'])
-    location_module.message(message, user, location, users, bot)
+    try:
+        location_module = importlib.import_module(location['file'])
+        location_module.message(message, user, location, users, bot)
+    except Exception as e:
+        print(e)
 
 bot.polling()
