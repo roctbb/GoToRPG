@@ -10,16 +10,10 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
         elif 15 < hour < 16.30:
             bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
-        elif 17 < hour < 19:
-            bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
+       elif 17 < hour < 19
+           bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
         else:
             bot.send_message(user["chat_id"], "Пар нету, а значит и прогуливать нечего)")
-    if "/nightwalk" in msg.text:
-        if 0 < hour < 4:
-            bot.send_message(user["chat_id"], """Вы пожаловались на плохое самочувствие 
-            и по обратной дороге навернули пару лишних кругов""")
-    if "/heal" in msg.text:
-        bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и полечились у Лены.")
     else:
         for neighbor in neighbors:
             if neighbor["chat_id"] != user["chat_id"]:
