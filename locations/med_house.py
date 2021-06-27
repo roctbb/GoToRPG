@@ -15,6 +15,7 @@ def message(msg, user, location, neighbors, bot):
         else:
             bot.send_message(user["chat_id"], "Пар нету, а значит и прогуливать нечего)")
     else:
+        bot.send_message
         for neighbor in neighbors:
             if neighbor["chat_id"] != user["chat_id"]:
                 bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
