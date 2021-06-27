@@ -39,6 +39,16 @@ except:
             "id": "hunter_house",
             "file": "locations.hunter_house",
             "name": "Дом охотника"
+        },
+        {
+            "id": "admin_house",
+            "file": "locations.admin_house",
+            "name": "Администрация"
+        },
+        {
+            "id": "forest",
+            "file": "locations.forest",
+            "name": "Лес"
         }
     ]
 
