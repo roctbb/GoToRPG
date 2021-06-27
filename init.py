@@ -44,6 +44,11 @@ except:
             "id": "admin_house",
             "file": "locations.admin_house",
             "name": "Администрация"
+        },
+        {
+            "id": "forest",
+            "file": "locations.forest",
+            "name": "Лес"
         }
     ]
 
