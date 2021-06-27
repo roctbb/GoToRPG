@@ -14,5 +14,5 @@ def event(users, location, bot):
         if random.randint(1, 3) == 1:
             for user in users:
                 bot.send_sticker(user['chat_id'], stickers['nikolay'])
-                bot.send_message(user['chat_id'], 'В жоме охотника появился Николай. Вы отвлекаете его от работы! Вы наказаны!')
+                bot.send_message(user['chat_id'], 'В доме охотника появился Николай. Вы отвлекаете его от работы! Вы наказаны!')
                 user['states'].append('punishment')
