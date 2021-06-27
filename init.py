@@ -49,7 +49,17 @@ except:
             "id": "forest",
             "file": "locations.forest",
             "name": "Лес"
-        }
+        },
+        {
+            "id": "fire",
+            "file": "locations.fire",
+            "name": "Костер"
+        },
+        {
+            "id": "school",
+            "file": "locations.school",
+            "name": "Учебка"
+        },
     ]
 
 stickers = {
