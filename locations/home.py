@@ -13,7 +13,7 @@ def message(msg, user, location, neighbors, bot):
         x = randint(0,101)
         if x <= 30:
             bot.send_message(user["chat_id"], "Вы нашли монетку!")
-            coin+=1
+            user['inventory']
         if x > 30:
             bot.send_message(user["chat_id"], "Поиски не увенчались успехом...")
     if "/sleep" in msg.text:
