@@ -1,7 +1,31 @@
 import config
 import importlib
 from init import *
+import time
+import threading
 
+def life_support():
+    while True:
+        for user in users:
+            check_params(user)
+
+            # еда
+            if user['eat_points'] != 0:
+                user['eat_points'] -= 1
+
+        for location in locations:
+            try:
+                location_module = importlib.import_module(location['file'])
+                location_module.event(users, location, bot)
+            except Exception as e:
+                print(e)
+
+        save()
+        time.sleep(5 * 60)
+
+@bot.message_handler(content_types=['sticker'])
+def print_sticker(message):
+    print(message.sticker.file_id)
 
 @bot.message_handler(content_types=['text'])
 def process_message(message):
@@ -36,9 +60,9 @@ def process_message(message):
     except Exception as e:
         print(e)
 
-    with open('users.json', 'w') as file:
-        json.dump(users, file)
-    with open('locations.json', 'w') as file:
-        json.dump(locations, file)
+    save()
+
+life_thread = threading.Thread(target=life_support)
+life_thread.start()
 
 bot.polling()
