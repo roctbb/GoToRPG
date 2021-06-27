@@ -44,11 +44,16 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Вы спите на улице.")
         else:
             bot.send_message(user["chat_id"], "Вы прилегли отдохнуть.")
+    else:
+        for neighbor in neighbors:
+            if neighbor["chat_id"] != user["chat_id"]:
+                bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
         return
 
     for neighbor in neighbors:
         if neighbor["chat_id"] != user["chat_id"]:
             bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
+
 
 
 def event(location, users, bot):
