@@ -13,8 +13,19 @@ def life_support():
             if user['eat_points'] != 0:
                 user['eat_points'] -= 1
 
+        for location in locations:
+            try:
+                location_module = importlib.import_module(location['file'])
+                location_module.event(users, location, bot)
+            except Exception as e:
+                print(e)
+
         save()
         time.sleep(5 * 60)
+
+@bot.message_handler(content_types=['sticker'])
+def print_sticker(message):
+    print(message.sticker.file_id)
 
 @bot.message_handler(content_types=['text'])
 def process_message(message):

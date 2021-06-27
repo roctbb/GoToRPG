@@ -56,5 +56,21 @@ def message(msg, user, location, neighbors, bot):
 
 
 
-def event(location, users, bot):
-    pass
+def event(users, location, bot):
+    if random.randint(1,10) == 1:
+        for user in users:
+            bot.send_message(user['chat_id'], 'Пошел дождь')
+            if 'wet' not in user['states']:
+                user['states'].append('wet')
+
+    hour = datetime.now().hour
+
+    # пояление Николая
+    if 0 < hour < 7:
+        if random.randint(1, 3) == 1:
+            for user in users:
+                bot.send_sticker(user['chat_id'], stickers['nikolay'])
+                bot.send_message(user['chat_id'], 'На улице появился Николай. Вы отвлекаете его от работы! Вы наказаны!')
+                user['states'].append('punishment')
+
+

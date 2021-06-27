@@ -52,6 +52,9 @@ except:
         }
     ]
 
+stickers = {
+    "nikolay": "CAACAgIAAxkBAAIVGmDYmcLuaWX73R-rLVun5hLgOFKlAAK7AAMTKxwE_BmnnTxRwBwgBA"
+}
 
 def find_users_by_location(location_id):
     users_in_location = []
