@@ -21,7 +21,7 @@ def message(msg, user, location, neighbors, bot):
         else:
             bot.send_message(user["chat_id"], "Сейчас можно гулять и без этого)")
     if "/heal" in msg.text:
-        bot.send_message(user[])
+        bot.send_message(user["chat_id"], "Лена подлечила вас")
         for neighbor in neighbors:
             if neighbor["chat_id"] != user["chat_id"]:
                 bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
