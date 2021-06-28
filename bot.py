@@ -1,8 +1,7 @@
 import random
-
+from init import *
 import config
 import importlib
-from init import *
 import time
 import threading
 
@@ -38,6 +37,9 @@ def life_support():
 
         save()
         time.sleep(5 * 60)
+
+
+
 
 
 @bot.message_handler(content_types=['sticker'])

@@ -86,6 +86,7 @@ def message(msg, user, location, neighbors, bot):
     if "/eat_bread" in msg.text:
         if 'bread' in user ['inventory']:
             bot.send_message(user["chat_id"], 'Вы сьели хлеб')
+            user["eat_points"] += 15
             user['inventory'].remove('bread')
             bot.send_message(user["chat_id"], "Ваш уровень питание: {}".format(user['eat_points']))
             if user["eat_points"] > 100:
@@ -97,6 +98,7 @@ def message(msg, user, location, neighbors, bot):
     if "/eat_bulochka" in msg.text:
         if 'bulochka' in user ['inventory']:
             bot.send_message(user["chat_id"], 'Вы сьели булочку')
+            user["eat_points"] += 15
             user['inventory'].remove('bulochka')
             bot.send_message(user["chat_id"], "Ваше уровень питание: {}".format(user['eat_points']))
         else:
