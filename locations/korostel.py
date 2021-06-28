@@ -10,7 +10,7 @@ def message(msg, user, location, neighbors, bot):
 
         if 9 < hour < 11:
           bot.send_message(user["chat_id"], "Вы завтракаете ")
-          user["eat_points"] +=20
+          user["eat_points"] += 20
           if user["eat_points"] > 100:
               bot.send_message(user["chat_id"], "У вас понос")
         else:
