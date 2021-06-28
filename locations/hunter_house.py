@@ -4,7 +4,8 @@ import time
 from random import randint
 from init import *
 import importlib
-
+token='1825302510:AAFq6wRCQbVsMWiSqbyCuhwwlFGsHsVthgo'
+bot = telebot.TeleBot(token=token)
 def welcome(user, location, bot):
     hour = datetime.now().hour
 
