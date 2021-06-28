@@ -25,7 +25,9 @@ def event(users, location, bot):
             for player in users:
                 if player['chat_id'] != user['chat_id']:
                     bot.send_message(player['chat_id'], "{} зарабатывает очко!".format(user['name']))
-            bot.send_message(user['chat_id'], "Вы заработали очко!".format(user['name']))
+            bot.send_message(user['chat_id'], "Вы заработали очко!")
             user['volley_points'] += 1
+        else:
+            bot.send_message(user['chat_id'], "Вы подаете мяч, но промахиваетесь.")
 
         user['sleep_points'] -= 5
