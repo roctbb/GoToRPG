@@ -28,14 +28,5 @@ def message(msg, user, location, neighbors, bot):
             user['inventory']
         if x > 30:
             bot.send_message(user["chat_id"], "Поиски не увенчались успехом...")
-    if "/sleep" in msg.text:
-        if 10 < hour < 15:
-            bot.send_message(user["chat_id"], "Вы спите в доме охотника днём. Повышение выносливости снижено на 30%")
-        elif 0 < hour < 7:
-            bot.send_message(user["chat_id"], "Вы спите")
-        else:
-            bot.send_message(user["chat_id"], "Вы прилегли отдохнуть. Повышение выносливости снижено на 30%     ")
-        return
-
     if "/talk" in msg.txt:
         bot.send_message(user['chat_id'],)
