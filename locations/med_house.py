@@ -65,8 +65,9 @@ def message(msg, user, location, neighbors, bot):
         bot.send_message(user["chat_id"], "Лена подлечила вас")
         if "sick" in user['states']:
             user["states"].remove("sick")
-        elif "ponos" in user ["states"]:
+        elif "ponos" in user["states"]:
             user["states"].remove('ponos')
+            user["eat_points"]=0
         else:
             bot.send_message(user["chat_id"], "Вы здоровы")
     elif "/coin" in msg.text:
