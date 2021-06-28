@@ -1,6 +1,6 @@
 @bot.message_handler(commands=['Vzyat_kapitoshku'])
 def huntho(message):
-    if "/waterballгз" in msg.text:
+    if "/waterballup" in msg.text:
         user['inventory'].append(kapitoshka)
         for neighbor in neighbors:
             bot.send_message(neighbor['chat_id'], "{} поднял капитошку")
