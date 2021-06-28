@@ -6,37 +6,37 @@ hour = datetime.now().hour
 
 def welcome (user,location,bot):
     hour = datetime.now().hour
-    if 10 < hour < 11:
+    if 10 <= hour <= 11:
         welcome_text = """Это коростель здесь вы можете покушать.
-        /breakfast-позавтракать
-    Eли ваша шкала еды больше 100 то у вас понос.
-    """
-    if 11 < hour < 13:
-        welcome_text = "Сейчас нельзя покушать"
-    if 13 < hour < 14:
+/breakfast-позавтракать
+Аккуратнее с перееданием!"""
+    if 11 <= hour <= 13:
+        welcome_text = "Сейчас нельзя покушать,можете купить хлеб"
+    if 13 <= hour <= 14:
         welcome_text = """Это коростель здесь вы можете покушать.
-            /lunch-пообедать
-        Eли ваша шкала еды больше 100 то у вас понос.
-        """
-    if 14 < hour > 19:
-        welcome_text = "Сейчас нельзя покушать"
-    if 19 < hour < 20:
+    /lunch-пообедать
+    Аккуратнее с перееданием!"""
+
+
+    if 14 <= hour <= 19:
+        welcome_text = "Сейчас нельзя покушать,можете купить хлеб"
+    if 19 <= hour <= 20:
         welcome_text = """Это коростель здесь вы можете покушать.
-              /dinner-поожинать
-          Eли ваша шкала еды больше 100 то у вас понос.
-          """
+    /dinner-поожинать
+    Аккуратнее с перееданием!"""
     bot.send_message(user["chat_id"], welcome_text)
 
 def message(msg, user, location, neighbors, bot):
     hour = datetime.now().hour
 
     if "/breakfast" in msg.text:
-        if 10 < hour < 11:
+        if 10 <= hour <= 11:
           bulochka=random.randint(1,2)
           bot.send_message(user["chat_id"], "Вы завтракаете...")
           user["eat_points"] += 80
           if bulochka == 1:
               bot.send_message(user["chat_id"], "вы получили булочку чтобы сьесть ее напишите /eat_bulochka")
+              user['inventory'].append('bulochka')
 
           if user["eat_points"] > 100:
               bot.send_message(user["chat_id"], "У вас понос")
@@ -45,7 +45,7 @@ def message(msg, user, location, neighbors, bot):
         else:
           bot.send_message(user["chat_id"], "Вы сейчас не можете кушац")
     if "/lunch" in msg.text:
-        if 13 < hour < 14:
+        if 13 <= hour <=14:
             bot.send_message(user["chat_id"], "Вы обедаете ")
             user["eat_points"] += 80
             if user["eat_points"] > 100:
@@ -55,7 +55,7 @@ def message(msg, user, location, neighbors, bot):
         else:
             bot.send_message(user["chat_id"], "Вы сейчас не можете кушац")
     if "/dinner" in msg.text:
-            if 19 < hour < 20:
+            if 19 <= hour <= 20:
                 bot.send_message(user["chat_id"], "Вы ужинаете ")
                 user["eat_points"] += 80
                 if user["eat_points"] > 100:
