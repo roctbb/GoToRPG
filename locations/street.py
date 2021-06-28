@@ -12,18 +12,32 @@ def message(msg, user, location, neighbors, bot):
             target = find_user_by_name(name)
 
             if not target:
-                bot.send_message(user['chat_id'], "Нет такого пользователя!")
+                bot.send_message(user['chat_id'], "👀 Нет такого пользователя!")
                 return
 
             if user['eat_points'] < 20:
-                bot.send_message(user['chat_id'], "Вы слишком голодны для этого!")
+                bot.send_message(user['chat_id'], "👀 Вы слишком голодны для этого!")
+                return
+
+            if "punished" in user['states']:
+                bot.send_message(user['chat_id'], "👀 Вы деморализованы и не можете бросить капитошку...")
                 return
 
             if "waterball" not in user['inventory']:
-                bot.send_message(user['chat_id'], "У вас нет капитошки!")
+                bot.send_message(user['chat_id'], "👀 У вас нет капитошки!")
                 return
 
-            if random.randint(1, 10) > 4:
+            border = 4
+            if "sick" in user['states']:
+                border += 2
+            if "punished" in user['states']:
+                border += 2
+            if "toxic" in user['states']:
+                border += 2
+            if "ponos" in user['states']:
+                border += 2
+
+            if random.randint(1, 10) > border:
                 for neighbor in neighbors:
                     bot.send_message(neighbor['chat_id'], "{} кидает капитошку в {} и попадает!".format(user['name'], target['name']))
                 bot.send_message(target['chat_id'], "Вы намокли!")
@@ -38,7 +52,7 @@ def message(msg, user, location, neighbors, bot):
 
         except Exception as e:
             print(e)
-            bot.send_message(user['chat_id'], "Укажите цель!")
+            bot.send_message(user['chat_id'], "👀 Укажите цель!")
         return
 
     if "/sleep" in msg.text:
@@ -46,6 +60,9 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Вы загораете.")
         elif 0 < hour < 7:
             bot.send_message(user["chat_id"], "Вы спите на улице.")
+            user['sleep_points'] += 20
+
+            if ""
         else:
             bot.send_message(user["chat_id"], "Вы прилегли отдохнуть.")
     else:
