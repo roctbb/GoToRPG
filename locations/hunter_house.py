@@ -30,3 +30,10 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Поиски не увенчались успехом...")
     if "/talk" in msg.txt:
         bot.send_message(user['chat_id'],)
+
+@bot.message_handler(commands=['ballup'])
+def ball(message):
+    if "/ballup" in msg.text:
+        user['inventory'].append(ball)
+        for neighbor in neighbors:
+            bot.send_message(neighbor['chat_id'], "{} поднял мяч")

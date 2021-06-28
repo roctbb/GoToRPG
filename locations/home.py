@@ -40,6 +40,6 @@ def message(msg, user, location, neighbors, bot):
 
         return
 
-def event(users, location, bot):
+    def event(users, location, bot):
     pass
     # если ты в домике во время пар - может прийти Николай и дать punished
