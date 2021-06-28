@@ -11,7 +11,7 @@ def message(msg, user, location, neighbors, bot):
     if "/berries" in msg.text:
         berrychance = randint(1, 4)
         if berrychance == 2:
-            user["eat_points"] += 10
+            user["eat_points"] += 5
             bot.send_message(user["chat_id"], "Вы cъели ягодки!🍇\n"
                                               "Ваше уровень питание: {}".format(user['eat_points']))
             if user["eat_points"] > 100:
@@ -24,7 +24,7 @@ def message(msg, user, location, neighbors, bot):
     elif "/mushroom" in msg.text:
         mushroomchance = randint(1, 6)
         if mushroomchance == 1:
-            user["eat_points"] += 12
+            user["eat_points"] += 5
             bot.send_message(user["chat_id"], "Вы cъели грибы!🍄\n"
                                               "Теперь ваще состояние токсичное. 🦠\n"
                                               "Ваше уровень питание: {}".format(user['eat_points']) )
