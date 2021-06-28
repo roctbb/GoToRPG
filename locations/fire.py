@@ -51,8 +51,7 @@ def welcome(user, location, bot):
                              "*👻 /horror")
 
 def message(msg, user, location, neighbors, bot):
-    #hour = datetime.now().hour
-    hour = 22
+    hour = datetime.now().hour
 
     if 1 < hour < 22:
         bot.send_message(user["chat_id"], "С 22 часов ночи начинаются посиделки у костра. Сейчас костер не горит.")
@@ -89,11 +88,6 @@ def message(msg, user, location, neighbors, bot):
                  bot.send_audio(neighbor["chat_id"], open(random.choice(audio), 'rb').read())
          else:
              bot.send_message(user["chat_id"], "Вам нужна гитара. Гитару, кажется, видели в учебке.")
-             # if "/take_guitar" in msg.text:
-             #     if "guitar" in user['inventory']:
-             #         bot.send_message(user["chat_id"], "Теперь у Вас есть гитара, можно сыграть песню.")
-             #         user['inventory'].remove('guitar')
-
 
 
     if "/horror" in msg.text:
@@ -102,4 +96,4 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(neighbor["chat_id"], "{} рассказывает страшную историю.")
             bot.send_message(neighbor["chat_id"], random.choice(horror_stories))
             time.sleep(20)
-            bot.send_message(neighbor["chat_id"], "В процессе рассказа страшной истории все услышали шорох в лесу.")
+            bot.send_message(neighbor["chat_id"], "В процессе рассказа страшной истории все услышали шорох в лесу...")
