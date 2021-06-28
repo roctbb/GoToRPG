@@ -2,6 +2,7 @@ import random
 import time
 from init import *
 from datetime import datetime
+import importlib
 
 def welcome(user, location, bot):
     hour = datetime.now().hour
@@ -31,3 +32,21 @@ def event(users, location, bot):
             bot.send_message(user['chat_id'], "Вы подаете мяч, но промахиваетесь.")
 
         user['sleep_points'] -= 5
+
+    # пояление Николая
+    hour = datetime.now().hour
+    if 0 < hour < 7:
+        if random.randint(1, 3) == 1:
+            for user in users:
+                bot.send_sticker(user['chat_id'], stickers['nikolay'])
+                bot.send_message(user['chat_id'],
+                                 '👺 В темноте появляется Николай, кажется он расстроен встречей с вами. Вы нарушаете правила и отвлекаете его от работы.\n😔 Вас отругали и вы расстроились. Вы возвращаетесь домой.')
+
+                location = change_location_by_id(user, "home")
+                try:
+                    location_module = importlib.import_module(location['file'])
+                    location_module.welcome(user, location, bot)
+                except Exception as e:
+                    print(e)
+                if "punished" not in user['states']:
+                    user['states'].append('punishment')
