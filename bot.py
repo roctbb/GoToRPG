@@ -58,7 +58,14 @@ def process_message(message):
     if "/goto" in message.text:
         try:
             cmd, location_id = message.text.split(' ')
-            change_location_by_id(user, location_id)
+            location = change_location_by_id(user, location_id)
+
+            try:
+                location_module = importlib.import_module(location['file'])
+                location_module.welcome(user, location, bot)
+            except Exception as e:
+                print(e)
+
             return
         except Exception as e:
             print(e)
