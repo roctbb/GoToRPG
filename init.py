@@ -60,6 +60,11 @@ except:
             "file": "locations.school",
             "name": "Учебка"
         },
+        {
+            "id": "sports",
+            "file": "locations.sports",
+            "name": "Волейбольное поле"
+        },
     ]
 
 stickers = {
