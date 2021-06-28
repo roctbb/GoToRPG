@@ -14,6 +14,10 @@ def message(msg, user, location, neighbors, bot):
             user["eat_points"] += 10
             bot.send_message(user["chat_id"], "Вы cъели ягодки!🍇\n"
                                               "Ваше уровень питание: {}".format(user['eat_points']))
+            if user["eat_points"] > 100:
+                bot.send_message(user["chat_id"], "У вас понос")
+                if "ponos" not in user['states']:
+                    user['states'].append("ponos")
         else:
             bot.send_message(user['chat_id'], "Увы ягод ты не нашёл. Поищи ещё 😱")
 
@@ -24,6 +28,10 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Вы cъели грибы!🍄\n"
                                               "Теперь ваще состояние токсичное. 🦠\n"
                                               "Ваше уровень питание: {}".format(user['eat_points']) )
+            if user["eat_points"] > 100:
+                bot.send_message(user["chat_id"], "У вас понос")
+                if "ponos" not in user['states']:
+                    user['states'].append("ponos")
             if "toxic" not in user['states']:
                 user['states'].append('toxic')
         else:
