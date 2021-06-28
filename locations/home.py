@@ -2,6 +2,7 @@ from datetime import datetime
 import time
 from random import randint
 
+
 def welcome(user, location, bot):
     if user['chat_id'] in location:
         bot.send_message(user['chat_id'],"Вы зашли на локацию Дом")
@@ -38,7 +39,69 @@ def message(msg, user, location, neighbors, bot):
         if "dirty" in user['states']:
             user['states'].remove("dirty")
 
+    if "/waterball" in msg.text:
+        try:
+            cmd, name = msg.text.split()
+            target = find_user_by_name(name)
+
+            if not target:
+                bot.send_message(user['chat_id'], "👀 Нет такого пользователя!")
+                return
+            if user['eat_points'] < 20:
+                 bot.send_message(user['chat_id'], "👀 Вы слишком голодны для этого!")
+                return
+
+            if "punished" in user['states']:
+                    return
+
+            if "waterball" not in user['inventory']:
+                bot.send_message(user['chat_id'], "👀 У вас нет капитошки!")
+                return
+
+            border = 4
+            if "sick" in user['states']:
+                border += 2
+            if "punished" in user['states']:
+                border += 2
+            if "toxic" in user['states']:
+                border += 2
+            if "ponos" in user['states']:
+                border += 2
+
+            if random.randint(1, 10) > border:
+                for neighbor in neighbors:
+                    bot.send_message(neighbor['chat_id'],
+                                     "🎯 {} кидает капитошку в {} и попадает!".format(user['name'], target['name']))
+                bot.send_message(target['chat_id'], "💦 В вас попали капитошкой и вы намокли!")
+                x = randint(0,101)
+                if x <= 90:
+                    bot.send_message(user['chat_id'], "Вы разлили воду! Николай пришёл и наказл вас!")
+                    user['states'].append('punished')
+                else:
+                    bot.send_message(user['chat_id'],"Вы разлили воду, но Николай этого не заметил!")
+
+                if "wet" not in target['states']:
+                    target['states'].append('wet')
+            else:
+                for neighbor in neighbors:
+                    bot.send_message(neighbor['chat_id'],
+                                     "👀 {} кидает капитошку в {}, но промахивается!".format(user['name'],
+                                                                                                 target['name']))
+                x = randint(0, 101)
+                if x <= 90:
+                    bot.send_message(user['chat_id'], "Вы разлили воду! Николай пришёл и наказл вас!")
+                    user['states'].append('punished')
+                else:
+                    bot.send_message(user['chat_id'], "Вы разлили воду, но Николай этого не заметил!")
+
+            user['inventory'].remove('waterball')
+
+        except Exception as e:
+            print(e)
+            bot.send_message(user['chat_id'], "👀 Укажите цель!")
         return
+
+    return
 
 def event(users, location, bot):
     hour = datetime.now().hour
@@ -53,3 +116,4 @@ def event(users, location, bot):
                 else:
                     bot.send_message(user['chat_id'], "Вы не на парах! Вас поймал Николай! Вы наказаны!")
                     user['states'].append('punished')
+
