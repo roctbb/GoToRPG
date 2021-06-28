@@ -53,7 +53,7 @@ def message(msg, user, location, neighbors, bot):
 
             if random.randint(1, 10) > border:
                 for neighbor in neighbors:
-                    bot.send_message(neighbor['chat_id'], "🎯{} кидает капитошку в {} и попадает!".format(user['name'], target['name']))
+                    bot.send_message(neighbor['chat_id'], "🎯 {} кидает капитошку в {} и попадает!".format(user['name'], target['name']))
                 bot.send_message(target['chat_id'], "💦 В вас попали капитошкой и вы намокли!")
 
                 if "wet" not in target['states']:
@@ -107,17 +107,16 @@ def event(users, location, bot):
     if 0 < hour < 7:
         if random.randint(1, 3) == 1:
             for user in users:
+                bot.send_sticker(user['chat_id'], stickers['nikolay'])
+                bot.send_message(user['chat_id'], '👺 В темноте появляется Николай, кажется он расстроен встречей с вами. Вы нарушаете правила и отвлекаете его от работы.\n😔 Вас отругали и вы расстроились. Вы возвращаетесь домой.')
+
+                location = change_location_by_id(user, "home")
+                try:
+                    location_module = importlib.import_module(location['file'])
+                    location_module.welcome(user, location, bot)
+                except Exception as e:
+                    print(e)
                 if "punished" not in user['states']:
-                    bot.send_sticker(user['chat_id'], stickers['nikolay'])
-                    bot.send_message(user['chat_id'], '👺 В темноте появляется Николай, кажется он расстроен встречей с вами. Вы нарушаете правила и отвлекаете его от работы.\n😔 Вас отругали и вы расстроились. Вы возвращаетесь домой.')
-
-                    location = change_location_by_id(user, "home")
-                    try:
-                        location_module = importlib.import_module(location['file'])
-                        location_module.welcome(user, location, bot)
-                    except Exception as e:
-                        print(e)
-
                     user['states'].append('punishment')
 
 

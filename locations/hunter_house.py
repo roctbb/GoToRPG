@@ -2,9 +2,7 @@ from datetime import datetime
 import time
 from random import randint
 
-users[hunterhouse].append(0)
 def welcome(user, location, bot):
-    if users[hunterhouse]==0:
         bot.send_message(user,'Добро пожаловать в дом охотника.Здесь ты можешь получить капитошку(/waterball),найти монетку(/look),взять мяч(/take_ball),положить мяч(/give_ball)')
 
 def event(users, location, bot):
@@ -46,7 +44,19 @@ def message(msg, user, location, neighbors, bot):
         user['inventory'].append("ball")
         for neighbor in neighbors:
             bot.send_message(neighbor['chat_id'], "{} поднял мяч".format(user['name']))
+    elif "/take_stick" in msg.text:
+        if 'stick' in location['inventory'] and 'stick' not in user['inventory']:
+            user['inventory'].append('stick')
+            location['inventory'].remove('stick')
+            for neighbor in neighbors:
+                bot.send_message(neighbor["chat_id"], "{} взял биту".format(user['name']))
+        elif 'stick' in user['inventory']:
+            bot.send_message(user['chat_id'], 'У вас уже есть бита')
+        elif 'stick' not in location['inventory']:
+            bot.send_message(user['chat_id'], 'В доме охотника не осталось ни одной биты')
     else:
         for neighbor in neighbors:
             if neighbor["chat_id"] != user["chat_id"]:
                 bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
+
+

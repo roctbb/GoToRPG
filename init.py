@@ -26,8 +26,8 @@ except:
             "name": "Домик"
         },
         {
-            "id": "med",
-            "file": "locations.med",
+            "id": "med_house",
+            "file": "locations.med_house",
             "name": "Медпункт"
         },
         {
@@ -153,8 +153,11 @@ def change_location_by_id(user, location_id):
 
         description = "👫 С вами в одной локации: "
         for neighbor in neighbors:
-            bot.send_message(neighbor['chat_id'], "{} теперь в {}!".format(user['name'], location["name"]))
-            description += neighbor['name'] + " "
+            if neighbor['chat_id'] != user['chat_id']:
+                bot.send_message(neighbor['chat_id'], "{} теперь в {}!".format(user['name'], location["name"]))
+                description += neighbor['name'] + " "
+        if len(neighbors) == 1:
+            description += "только вы."
 
         user['location'] = location_id
         bot.send_message(user["chat_id"], "ℹ️ Теперь вы находитесь в {}.".format(location['name']))
