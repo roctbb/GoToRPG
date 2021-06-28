@@ -156,7 +156,7 @@ def change_location_by_id(user, location_id):
             if neighbor['chat_id'] != user['chat_id']:
                 bot.send_message(neighbor['chat_id'], "{} теперь в {}!".format(user['name'], location["name"]))
                 description += neighbor['name'] + " "
-        if len(neighbors) == 0:
+        if len(neighbors) == 1:
             description += "только вы."
 
         user['location'] = location_id
