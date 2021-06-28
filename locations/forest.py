@@ -17,14 +17,15 @@ def message(msg, user, location, neighbors, bot):
         else:
             bot.send_message(user['chat_id'], "Увы ягод ты не нашёл. Поищи ещё 😱")
 
-    if "/mushroom" in msg.text:
-        berrychance = randint(1, 6)
-        if berrychance[user] == 1:
+    elif "/mushroom" in msg.text:
+        mushroomchance = randint(1, 6)
+        if mushroomchance == 1:
             user["eat_points"] += 12
             bot.send_message(user["chat_id"], "Вы cъели грибы!🍄\n"
                                               "Теперь ваще состояние токсичное. 🦠\n"
                                               "Ваше уровень питание: {}".format(user['eat_points']) )
-            user['states'].append('toxic')
+            if "toxic" not in user['states']:
+                user['states'].append('toxic')
         else:
             bot.send_message(user['chat_id'], "Ты не нашёл грибочков 😢")
 
