@@ -35,8 +35,7 @@ horror_stories = ["""Явь. Девочке 5 лет. У нее 3 сестры, 
 ]
 
 def welcome(user, location, bot):
-    #hour = datetime.now().hour
-    hour = 22
+    hour = datetime.now().hour
 
     if 0 <= hour <= 6:
         bot.send_message(user["chat_id"], "Вы подходите к кострищу, но все уже разошлись и костер потух. Приходите завтра.")
