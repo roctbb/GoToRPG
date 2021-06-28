@@ -44,9 +44,27 @@ except:
             "id": "admin_house",
             "file": "locations.admin_house",
             "name": "Администрация"
-        }
+        },
+        {
+            "id": "forest",
+            "file": "locations.forest",
+            "name": "Лес"
+        },
+        {
+            "id": "fire",
+            "file": "locations.fire",
+            "name": "Костер"
+        },
+        {
+            "id": "school",
+            "file": "locations.school",
+            "name": "Учебка"
+        },
     ]
 
+stickers = {
+    "nikolay": "CAACAgIAAxkBAAIVGmDYmcLuaWX73R-rLVun5hLgOFKlAAK7AAMTKxwE_BmnnTxRwBwgBA"
+}
 
 def find_users_by_location(location_id):
     users_in_location = []
@@ -83,6 +101,10 @@ def check_params(user):
         user['inventory'] = ["waterball"]
     if "states" not in user:
         user['states'] = []
+    if "eat_points" not in user:
+        user["eat_points"] = 100
+    if "sleep_points" not in user:
+        user["sleep_points"] = 192
 
 
 def init(chat_id):
@@ -127,5 +149,8 @@ def change_location_by_id(user, location_id):
         bot.send_message(user["chat_id"], "Теперь вы находитесь в {}.".format(location['name']))
         bot.send_message(user["chat_id"], description)
 
-
-
+def save():
+    with open('users.json', 'w') as file:
+        json.dump(users, file)
+    with open('locations.json', 'w') as file:
+        json.dump(locations, file)

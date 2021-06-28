@@ -15,6 +15,10 @@ def message(msg, user, location, neighbors, bot):
                 bot.send_message(user['chat_id'], "Нет такого пользователя!")
                 return
 
+            if user['eat_points'] < 20:
+                bot.send_message(user['chat_id'], "Вы слишком голодны для этого!")
+                return
+
             if "waterball" not in user['inventory']:
                 bot.send_message(user['chat_id'], "У вас нет капитошки!")
                 return
@@ -44,6 +48,10 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Вы спите на улице.")
         else:
             bot.send_message(user["chat_id"], "Вы прилегли отдохнуть.")
+    else:
+        for neighbor in neighbors:
+            if neighbor["chat_id"] != user["chat_id"]:
+                bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
         return
 
     for neighbor in neighbors:
@@ -51,5 +59,22 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
 
 
-def event(location, users, bot):
-    pass
+
+def event(users, location, bot):
+    if random.randint(1,10) == 1:
+        for user in users:
+            bot.send_message(user['chat_id'], 'Пошел дождь')
+            if 'wet' not in user['states']:
+                user['states'].append('wet')
+
+    hour = datetime.now().hour
+
+    # пояление Николая
+    if 0 < hour < 7:
+        if random.randint(1, 3) == 1:
+            for user in users:
+                bot.send_sticker(user['chat_id'], stickers['nikolay'])
+                bot.send_message(user['chat_id'], 'На улице появился Николай. Вы отвлекаете его от работы! Вы наказаны!')
+                user['states'].append('punishment')
+
+
