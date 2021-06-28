@@ -71,7 +71,7 @@ def message(msg, user, location, neighbors, bot):
         else:
             bot.send_message(user["chat_id"], "Вы здоровы")
     elif "/coin" in msg.text:
-        x = random.randint(0,31)
+        x = random.randint(0, 31)
         if x <= 10:
             bot.send_message(user["chat_id"], "Вы нашли монетку)")
             user['inventory'].append("coin")
