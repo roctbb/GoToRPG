@@ -32,7 +32,7 @@ def life_support():
         for location in locations:
             try:
                 location_module = importlib.import_module(location['file'])
-                location_module.event(users, location, bot)
+                location_module.event(find_users_by_location(location['id']), location, bot)
             except Exception as e:
                 print(e)
 
@@ -60,17 +60,20 @@ def process_message(message):
     check_params(user)
 
     if "/info" in message.text:
-        description = "ℹ️ Информация об игроке." \
-                      "" \
-                      "Имя игрока: {}" \
-                      "Локация: {}" \
-                      "Сытость: {}" \
-                      "Бодрость: {}" \
-                      "Рюкзак: {}" \
-                      "Состояния: {}".format(user['name'], user['location'], user['eat_points'], user['sleep_points'],
+        description = "ℹ️ Информация об игроке.\n" \
+                      "\n" \
+                      "Имя игрока: {}\n" \
+                      "Локация: {}\n" \
+                      "Сытость: {}\n" \
+                      "Бодрость: {}\n" \
+                      "Рюкзак: {}\n" \
+                      "Состояния: {}\n".format(user['name'], user['location'], user['eat_points'], user['sleep_points'],
                                              ' / '.join(user['inventory']), ' / '.join(user['states']))
+        bot.send_message(user['chat_id'], description)
+        return
 
-
+    if "/locations" in message.text:
+        bot.send_message(user['chat_id'], location_list())
 
     if "/goto" in message.text:
         try:

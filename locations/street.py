@@ -53,7 +53,7 @@ def message(msg, user, location, neighbors, bot):
 
             if random.randint(1, 10) > border:
                 for neighbor in neighbors:
-                    bot.send_message(neighbor['chat_id'], "🎯{} кидает капитошку в {} и попадает!".format(user['name'], target['name']))
+                    bot.send_message(neighbor['chat_id'], "🎯 {} кидает капитошку в {} и попадает!".format(user['name'], target['name']))
                 bot.send_message(target['chat_id'], "💦 В вас попали капитошкой и вы намокли!")
 
                 if "wet" not in target['states']:
