@@ -15,6 +15,10 @@ def message(msg, user, location, neighbors, bot):
                 bot.send_message(user['chat_id'], "Нет такого пользователя!")
                 return
 
+            if user['eat_points'] < 20:
+                bot.send_message(user['chat_id'], "Вы слишком голодны для этого!")
+                return
+
             if "waterball" not in user['inventory']:
                 bot.send_message(user['chat_id'], "У вас нет капитошки!")
                 return

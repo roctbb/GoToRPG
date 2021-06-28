@@ -3,19 +3,32 @@ from datetime import datetime
 def message(msg, user, location, neighbors, bot):
 
     hour = datetime.now().hour
+    if user["eat_points"] > 100:
+        bot.send_message(user["chat_id"], "У вас понос")
+
     if "/breakfast" in msg.text:
+
         if 9 < hour < 11:
           bot.send_message(user["chat_id"], "Вы завтракаете ")
+          user["eat_points"] += 20
+          if user["eat_points"] > 100:
+              bot.send_message(user["chat_id"], "У вас понос")
         else:
           bot.send_message(user["chat_id"], "Вы сейчас не можете кушац")
     if "/lunch" in msg.text:
         if 14 < hour < 15:
             bot.send_message(user["chat_id"], "Вы обедаете ")
+            user["eat_points"] += 20
+            if user["eat_points"] > 100:
+                bot.send_message(user["chat_id"], "У вас понос")
         else:
             bot.send_message(user["chat_id"], "Вы сейчас не можете кушац")
     if "/dinner" in msg.text:
             if 19 < hour < 20:
                 bot.send_message(user["chat_id"], "Вы ужинаете ")
+                user["eat_points"] += 20
+                if user["eat_points"] > 100:
+                    bot.send_message(user["chat_id"], "У вас понос")
             else:
                 bot.send_message(user["chat_id"], "Вы сейчас не можете кушац")
     else:

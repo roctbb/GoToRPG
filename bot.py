@@ -1,3 +1,5 @@
+import random
+
 import config
 import importlib
 from init import *
@@ -12,6 +14,18 @@ def life_support():
             # еда
             if user['eat_points'] != 0:
                 user['eat_points'] -= 1
+            else:
+                bot.send_message(user['chat_id'], "Вы очень хотите есть...")
+
+            if user['sleep_points'] != 0:
+                user['sleep_points'] -= 1
+            else:
+                bot.send_message(user['chat_id'], "Вы очень хотите спать...")
+
+            # заболевание
+            if "wet" in user['states'] and "sick" not in user['states'] and random.randint(1, 20) == 1:
+                bot.send_message(user['chat_id'], "Вы простудились...")
+                user['states'].append('sick')
 
         for location in locations:
             try:
@@ -44,7 +58,14 @@ def process_message(message):
     if "/goto" in message.text:
         try:
             cmd, location_id = message.text.split(' ')
-            change_location_by_id(user, location_id)
+            location = change_location_by_id(user, location_id)
+
+            try:
+                location_module = importlib.import_module(location['file'])
+                location_module.welcome(user, location, bot)
+            except Exception as e:
+                print(e)
+
             return
         except Exception as e:
             print(e)
