@@ -23,7 +23,7 @@ def message(msg, user, location, neighbors, bot):
             user['inventory'].append("coin")
         if x > 30:
             bot.send_message(user["chat_id"], "Поиски не увенчались успехом...")
-    if "/sleep" in msg.text:
+    elif "/sleep" in msg.text:
         if 10 < hour < 15:
             bot.send_message(user["chat_id"], "Вы спите в доме днём. Повышение выносливости снижено на 30%.")
             user['sleep_points'] += 100
@@ -34,7 +34,7 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user["chat_id"], "Вы прилегли отдохнуть. Повышение выносливости снижено на 30%.")
             user['sleep_points'] += 20
         return
-    if "/shower" in msg.text:
+    elif "/shower" in msg.text:
         bot.send_message(user["chat_id"], "Вы пошли в душ.")
         time.sleep(10)
         bot.send_message(user['chat_id'], "Вы стали чише! Теперь на Вас 99 клопов вместо 100")
@@ -45,7 +45,7 @@ def message(msg, user, location, neighbors, bot):
         if "dirty" in user['states']:
             user['states'].remove("dirty")
 
-    if "/waterball" in msg.text:
+    elif "/waterball" in msg.text:
         try:
             cmd, name = msg.text.split()
             target = find_user_by_name(name)
@@ -55,9 +55,6 @@ def message(msg, user, location, neighbors, bot):
                 return
             if user['eat_points'] < 20:
                 bot.send_message(user['chat_id'], "👀 Вы слишком голодны для этого!")
-                return
-
-            if "punished" in user['states']:
                 return
 
             if "waterball" not in user['inventory']:
