@@ -1,4 +1,5 @@
 from datetime import datetime
+import random
 hour = datetime.now().hour
 
 
@@ -31,8 +32,12 @@ def message(msg, user, location, neighbors, bot):
 
     if "/breakfast" in msg.text:
         if 10 < hour < 11:
+          bulochka=random.randint(1,2)
           bot.send_message(user["chat_id"], "Вы завтракаете...")
           user["eat_points"] += 80
+          if bulochka == 1:
+              bot.send_message(user["chat_id"], "вы получили булочку чтобы сьесть ее напишите /eat_bulochka")
+
           if user["eat_points"] > 100:
               bot.send_message(user["chat_id"], "У вас понос")
               if "ponos" not in user['states']:
@@ -59,9 +64,37 @@ def message(msg, user, location, neighbors, bot):
                         user['states'].append("ponos")
             else:
                 bot.send_message(user["chat_id"], "Вы сейчас не можете кушац")
+    if "/bread" in msg.text:
+        if 'coin' in user['inventory']:
+            bot.send_message(user["chat_id"], 'Вы купили один хлеб тобы сьесть напишите /eat_bread')
+            user['inventory'].remove('coin')
+            user['inventory'].append('bread')
+        else:
+            bot.send_message(user["chat_id"], "У вас нет coin")
+            if user["eat_points"] > 100:
+                bot.send_message(user["chat_id"], "У вас понос")
+                if "ponos" not in user['states']:
+                    user['states'].append("ponos")
+    if "/eat_bread" in msg.text:
+        if 'bread' in user ['inventory']:
+            bot.send_message(user["chat_id"], 'Вы сьели хлеб')
+            user['inventory'].remove('bread')
+        else:
+            bot.send_message(user["chat_id"], 'У вас нет хлеба')
+    if "/eat_bulochka" in msg.text:
+        if 'bulochka' in user ['inventory']:
+            bot.send_message(user["chat_id"], 'Вы сьели булочку')
+            user['inventory'].remove('bulochka')
+        else:
+            bot.send_message(user["chat_id"], 'У вас нет булочки')
+
+
+
+
     else:
         for neighbor in neighbors:
           if neighbor["chat_id"] != user["chat_id"]:
             bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
+
 
 

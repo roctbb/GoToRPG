@@ -5,7 +5,7 @@ from init import *
 
 def message(msg, user, location, neighbors, bot):
     hour = datetime.now().hour
-    bot.send_message(user['chat.id'], 'Чтобы купить мороженое, напишите /icecream')
+    bot.send_message(user['chat_id'], 'Чтобы купить мороженое, напишите /icecream')
     if "/icecream" in msg.text:
         if 8 < hour < 23:
             if 'coin' in user['inventory']:
@@ -19,4 +19,4 @@ def message(msg, user, location, neighbors, bot):
 
 def event(users, location, bot):
     for user in users:
-        bot.send_message(user['chat.id'], 'Чтобы купить мороженое, напишите /icecream')
+        bot.send_message(user['chat_id'], 'Чтобы купить мороженое, напишите /icecream')
