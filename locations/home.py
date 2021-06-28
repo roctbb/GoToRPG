@@ -1,10 +1,10 @@
 from datetime import datetime
 import time
 from random import randint
-stamina = 0
-clean = 0
-wet = False
-coin = 0
+
+def welcome(user, location, bot):
+    if user['chat_id'] in location:
+        bot.send_message(user['chat_id'],"Вы зашли на локацию Дом")
 
 def message(msg, user, location, neighbors, bot):
     hour = datetime.now().hour
@@ -41,5 +41,15 @@ def message(msg, user, location, neighbors, bot):
         return
 
 def event(users, location, bot):
-    pass
-    # если ты в домике во время пар - может прийти Николай и дать punished
+    hour = datetime.now().hour
+    minute = datetime.now().minute
+
+    if 10 < hour < 11.30 or 12 < hour < 14 or 15 < hour < 16.30 or 17 < hour < 19:
+        for user in users:
+            x = randint(0,101)
+            if x <= 80:
+                if 'medical_outlet' in user['inventory']:
+                    bot.send_message(user['chat_id'], "У вас есть разрешение от Лены сидеть дома. Николай отстал от Вас.")
+                else:
+                    bot.send_message(user['chat_id'], "Вы не на парах! Вас поймал Николай! Вы наказаны!")
+                    user['states'].append('punished')
