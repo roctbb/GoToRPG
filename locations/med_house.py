@@ -1,5 +1,11 @@
 from datetime import datetime
 import random
+def welcome (user, location,bot):
+    bot.send_message(user["chat_id"], """Добро пожаловать в медпункт! 
+    напишите /medical_outlet, чтобы получить медотвод
+    напишите /skiplessons, чтобы прогулять пару
+    напишите /nightwalk, чтобы пойти гулять ночью
+    напишите /heal, чтобы подлечиться""")
 
 def message(msg, user, location, neighbors, bot):
     hour = datetime.now().hour
@@ -15,13 +21,38 @@ def message(msg, user, location, neighbors, bot):
 
     if "/skiplesson" in msg.text:
         if 10 < hour < 11:
-            bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувсвие и остались у Лены")
+            z = random.randint(1,10)
+            if z <= 6:
+                bot.send_message(user["chat_id"], """Вы пожаловались на плохое самочувствие, но Лена отправила 
+                вас на пары.""")
+            else:
+                bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувсвие и остались у Лены")
         elif 12 < hour < 14:
-            bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
+            z = random.randint(1,10)
+            if z <= 6:
+                bot.send_message(user["chat_id"], """Вы пожаловались на плохое самочувствие, но Лена отправила 
+                вас на пары.""")
+            else:
+                z = random.randint(1, 10)
+                if z <= 6:
+                    bot.send_message(user["chat_id"], """Вы пожаловались на плохое самочувствие, но Лена отправила 
+                    вас на пары.""")
+                else:
+                    bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувсвие и остались у Лены")
         elif 15 < hour < 16:
-            bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
+            z = random.randint(1,10)
+            if z <= 6:
+                bot.send_message(user["chat_id"], """Вы пожаловались на плохое самочувствие, но Лена отправила 
+                вас на пары.""")
+            else:
+                bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувсвие и остались у Лены")
         elif 17 < hour < 19:
-            bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувствие и остались у Лены.")
+            z = random.randint(1,10)
+            if z <= 6:
+                bot.send_message(user["chat_id"], """Вы пожаловались на плохое самочувствие, но Лена отправила 
+                вас на пары.""")
+            else:
+                bot.send_message(user["chat_id"], "Вы пожаловались на плохое самочувсвие и остались у Лены")
         else:
             bot.send_message(user["chat_id"], "Пар нету, а значит и прогуливать нечего)")
     elif "/nightwalk" in msg.text:
