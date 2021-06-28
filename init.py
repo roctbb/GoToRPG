@@ -110,6 +110,10 @@ def check_params(user):
         user["eat_points"] = 100
     if "sleep_points" not in user:
         user["sleep_points"] = 192
+    if "code_lines" not in user:
+        user["code_lines"] = 0
+    if "volleyball_points" not in user:
+        user["volleyball_points"] = 0
 
 
 def init(chat_id):
