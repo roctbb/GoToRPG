@@ -39,7 +39,7 @@ except:
             "id": "hunter_house",
             "file": "locations.hunter_house",
             "name": "Дом охотника",
-            "inventory": ["ball"]
+            "inventory": ["ball", "stick", "stick"]
         },
         {
             "id": "admin_house",
@@ -60,7 +60,7 @@ except:
             "id": "school",
             "file": "locations.school",
             "name": "Учебка",
-            "inventory": ["guitar"]
+            "inventory": ["guitar", "stick"]
         },
         {
             "id": "sports",
