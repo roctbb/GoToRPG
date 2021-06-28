@@ -123,14 +123,14 @@ def init(chat_id):
         "chat_id": chat_id
     }
 
-    bot.send_message(chat_id, "Добро пожаловать в игру! Напиши свое имя...")
+    bot.send_message(chat_id, "🙋‍♀️ Добро пожаловать в игру! Напиши свое имя...")
 
     users.append(user)
     return user
 
 
 def location_list():
-    descrition = 'Локации:\n'
+    descrition = '🗺 Локации:\n'
 
     for location in locations:
         descrition += '- {}: {}\n'.format(location['id'], location['name'])
@@ -140,24 +140,24 @@ def location_list():
 def save_name(user, name):
     user["name"] = name
     user["location"] = "street"
-    bot.send_message(user["chat_id"], "Рад познакомиться с тобой, {}! Чтобы перейти в локацию, напиши /goto ЛОКАЦИЯ.\n\n{}".format(name, location_list()))
+    bot.send_message(user["chat_id"], "🤝 Рад познакомиться с тобой, {}! Чтобы перейти в локацию, напиши /goto ЛОКАЦИЯ, а чтобы узнать статус персонажа - введи /info.\n\n{}".format(name, location_list()))
 
 
 def change_location_by_id(user, location_id):
     location = find_location(location_id)
 
     if not location:
-        bot.send_message(user["chat_id"], "Такого места нет.")
+        bot.send_message(user["chat_id"], "👀 Такого места нет.")
     else:
         neighbors = find_users_by_location(location_id)
 
-        description = "С вами в одной локации: "
+        description = "👫 С вами в одной локации: "
         for neighbor in neighbors:
             bot.send_message(neighbor['chat_id'], "{} теперь в {}!".format(user['name'], location["name"]))
             description += neighbor['name'] + " "
 
         user['location'] = location_id
-        bot.send_message(user["chat_id"], "Теперь вы находитесь в {}.".format(location['name']))
+        bot.send_message(user["chat_id"], "ℹ️ Теперь вы находитесь в {}.".format(location['name']))
         bot.send_message(user["chat_id"], description)
 
     return location
