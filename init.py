@@ -4,6 +4,61 @@ import json
 
 bot = telebot.TeleBot(token=config.TOKEN)
 
+default_locations = [
+    {
+        "id": "street",
+        "file": "locations.street",
+        "name": "Улица"
+    },
+    {
+        "id": "home",
+        "file": "locations.home",
+        "name": "Домик"
+    },
+    {
+        "id": "med_house",
+        "file": "locations.med_house",
+        "name": "Медпункт"
+    },
+    {
+        "id": "korostel",
+        "file": "locations.korostel",
+        "name": "Коростель"
+    },
+    {
+        "id": "hunter_house",
+        "file": "locations.hunter_house",
+        "name": "Дом охотника",
+        "inventory": ["ball", "stick", "stick"]
+    },
+    {
+        "id": "admin_house",
+        "file": "locations.admin_house",
+        "name": "Администрация"
+    },
+    {
+        "id": "forest",
+        "file": "locations.forest",
+        "name": "Лес"
+    },
+    {
+        "id": "fire",
+        "file": "locations.fire",
+        "name": "Костер"
+    },
+    {
+        "id": "school",
+        "file": "locations.school",
+        "name": "Учебка",
+        "inventory": ["guitar", "stick"]
+    },
+    {
+        "id": "sports",
+        "file": "locations.sports",
+        "name": "Волейбольное поле"
+    },
+]
+
 try:
     with open('users.json', 'r') as file:
         users = json.load(file)
@@ -14,65 +69,11 @@ try:
     with open('locations.json', 'r') as file:
         locations = json.load(file)
 except:
-    locations = [
-        {
-            "id": "street",
-            "file": "locations.street",
-            "name": "Улица"
-        },
-        {
-            "id": "home",
-            "file": "locations.home",
-            "name": "Домик"
-        },
-        {
-            "id": "med_house",
-            "file": "locations.med_house",
-            "name": "Медпункт"
-        },
-        {
-            "id": "korostel",
-            "file": "locations.korostel",
-            "name": "Коростель"
-        },
-        {
-            "id": "hunter_house",
-            "file": "locations.hunter_house",
-            "name": "Дом охотника",
-            "inventory": ["ball", "stick", "stick"]
-        },
-        {
-            "id": "admin_house",
-            "file": "locations.admin_house",
-            "name": "Администрация"
-        },
-        {
-            "id": "forest",
-            "file": "locations.forest",
-            "name": "Лес"
-        },
-        {
-            "id": "fire",
-            "file": "locations.fire",
-            "name": "Костер"
-        },
-        {
-            "id": "school",
-            "file": "locations.school",
-            "name": "Учебка",
-            "inventory": ["guitar", "stick"]
-        },
-        {
-            "id": "sports",
-            "file": "locations.sports",
-            "name": "Волейбольное поле"
-        },
-    ]
+    locations = default_locations
 
 stickers = {
     "nikolay": "CAACAgIAAxkBAAIVGmDYmcLuaWX73R-rLVun5hLgOFKlAAK7AAMTKxwE_BmnnTxRwBwgBA"
 }
-
 
 def find_users_by_location(location_id):
     users_in_location = []
@@ -130,12 +131,13 @@ def init(chat_id):
     users.append(user)
     return user
 
+
 def leaderboard():
     top_coders = list(sorted(users, key=lambda x: -x['code_lines']))[:5]
     top_sports = list(sorted(users, key=lambda x: -x['volleyball_points']))[:5]
 
-    return "🏆 Топ программистов:\n\n {}\n\n🏆 Топ спортсменов:\n\n {}".format('\n'.join(top_coders), '\n'.join(top_coders))
-
+    return "🏆 Топ программистов:\n\n {}\n\n🏆 Топ спортсменов:\n\n {}".format(
+        '\n'.join(map(lambda x: x['name'], top_coders)), '\n'.join(map(lambda x: x['name'], top_sports)))
 
 
 def location_list():
@@ -175,7 +177,7 @@ def change_location_by_id(user, location_id):
             if neighbor['chat_id'] != user['chat_id']:
                 bot.send_message(neighbor['chat_id'], "{} теперь в {}!".format(user['name'], location["name"]))
                 description += neighbor['name'] + " "
-        if len(neighbors) == 1:
+        if len(neighbors) < 2:
             description += "только вы."
 
         user['location'] = location_id

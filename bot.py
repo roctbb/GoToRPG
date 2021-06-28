@@ -72,7 +72,10 @@ def process_message(message):
         return
 
     if "name" not in user:
-        save_name(user, message.text)
+        if " " in message.text:
+            bot.send_message(user['chat_id'], "Имя не должно содержать пробелы.")
+        else:
+            save_name(user, message.text)
         return
 
     check_params(user)
