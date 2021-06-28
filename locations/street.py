@@ -99,7 +99,7 @@ def event(users, location, bot):
             bot.send_message(user['chat_id'], '☔️ Пошел дождь.')
             if 'wet' not in user['states']:
                 user['states'].append('wet')
-                bot.send_message(user['chat_id'], '💦 Вы намокли. Чтобы просохнуть, примите дождь.')
+                bot.send_message(user['chat_id'], '💦 Вы намокли. Чтобы просохнуть, примите душ.')
 
     hour = datetime.now().hour
 
