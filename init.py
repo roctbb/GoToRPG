@@ -38,7 +38,8 @@ except:
         {
             "id": "hunter_house",
             "file": "locations.hunter_house",
-            "name": "Дом охотника"
+            "name": "Дом охотника",
+            "inventory": ["ball"]
         },
         {
             "id": "admin_house",
@@ -58,7 +59,8 @@ except:
         {
             "id": "school",
             "file": "locations.school",
-            "name": "Учебка"
+            "name": "Учебка",
+            "inventory": ["guitar"]
         },
         {
             "id": "sports",
@@ -110,6 +112,10 @@ def check_params(user):
         user["eat_points"] = 100
     if "sleep_points" not in user:
         user["sleep_points"] = 192
+    if "code_lines" not in user:
+        user["code_lines"] = 0
+    if "volleyball_points" not in user:
+        user["volleyball_points"] = 0
 
 
 def init(chat_id):
@@ -153,6 +159,8 @@ def change_location_by_id(user, location_id):
         user['location'] = location_id
         bot.send_message(user["chat_id"], "Теперь вы находитесь в {}.".format(location['name']))
         bot.send_message(user["chat_id"], description)
+
+    return location
 
 def save():
     with open('users.json', 'w') as file:
