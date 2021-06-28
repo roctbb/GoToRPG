@@ -9,7 +9,8 @@ def welcome (user, location,bot):
 
 def message(msg, user, location, neighbors, bot):
     hour = datetime.now().hour
-    minute = datetime.now().minute
+
+
 
     # TODO медотвод - medical_outlet
     if "/medical_outlet" in msg.text:
