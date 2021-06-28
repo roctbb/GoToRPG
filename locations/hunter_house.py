@@ -1,3 +1,5 @@
+import random
+
 import telebot
 from datetime import datetime
 import time
@@ -38,6 +40,27 @@ def welcome(user, location, bot):
             print(e)
 
 def event(users, location, bot):
+    hour = datetime.now().hour
+    if 10 < hour < 14 or 14 < hour < 19:
+        for user in users:
+            x = random.randint(0, 101)
+            if x <= 80:
+                if 'medical_outlet' in user['inventory']:
+                    bot.send_message(user['chat_id'],
+                                     "Заходит Николай, но у вас есть разрешение от Лены сидеть дома. Николай отстал от Вас.")
+                else:
+                    bot.send_message(user['chat_id'],
+                                     "Вы не на парах! Вас поймал Николай! Вы наказаны и отправляетесь на пару...")
+
+                    if 'punished' not in user['states']:
+                        user['states'].append('punished')
+
+                    location = change_location_by_id(user, "school")
+                    try:
+                        location_module = importlib.import_module(location['file'])
+                        location_module.welcome(user, location, bot)
+                    except Exception as e:
+                        print(e)
     for user in users:
         if randint(1, 10) == 1:
             bot.send_message(user['chat_id'], '🥪 Света угостила вас бутербродом с колбасой.')
@@ -46,6 +69,8 @@ def event(users, location, bot):
             bot.send_message(user['chat_id'], '💧 Жамшид незаметно облил вас водой. Вы намокли.')
             if "wet" not in user['states']:
                 user['states'].append('wet')
+
+
 
 
 def message(msg, user, location, neighbors, bot):

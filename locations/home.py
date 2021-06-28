@@ -3,14 +3,15 @@ from datetime import datetime
 import time
 from random import randint
 from init import *
+import importlib
 
 
 def welcome(user, location, bot):
-    bot.send_message(user['chat_id'], "Вы зашли на локацию Дом")
-    bot.send_message(user['chat_id'], "/waterball - бросить капитошку "
-                                      "/sleep - Сон "
-                                      "/shower - принять душ "
-                                      "/look - поискать монетки")
+    bot.send_message(user['chat_id'], "🏠 Вы зашли в свой домик.\n\n")
+    bot.send_message(user['chat_id'], "/waterball - бросить капитошку;\n"
+                                      "/sleep - поспать;\n"
+                                      "/shower - принять душ;\n"
+                                      "/look - поискать монетки.")
 
 
 def message(msg, user, location, neighbors, bot):
@@ -99,20 +100,28 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user['chat_id'], "👀 Укажите цель!")
         return
 
-    return
-
 
 def event(users, location, bot):
     hour = datetime.now().hour
     minute = datetime.now().minute
 
-    if 10 < hour < 11.30 or 12 < hour < 14 or 15 < hour < 16.30 or 17 < hour < 19:
+    if 10 < hour < 14 or 14 < hour < 19:
         for user in users:
-            x = randint(0, 101)
+            x = random.randint(0, 101)
             if x <= 80:
                 if 'medical_outlet' in user['inventory']:
                     bot.send_message(user['chat_id'],
-                                     "У вас есть разрешение от Лены сидеть дома. Николай отстал от Вас.")
+                                     "Заходит Николай, но у вас есть разрешение от Лены сидеть дома. Николай отстал от Вас.")
                 else:
-                    bot.send_message(user['chat_id'], "Вы не на парах! Вас поймал Николай! Вы наказаны!")
-                    user['states'].append('punished')
+                    bot.send_message(user['chat_id'],
+                                     "Вы не на парах! Вас поймал Николай! Вы наказаны и отправляетесь на пару...")
+
+                    if 'punished' not in user['states']:
+                        user['states'].append('punished')
+
+                    location = change_location_by_id(user, "school")
+                    try:
+                        location_module = importlib.import_module(location['file'])
+                        location_module.welcome(user, location, bot)
+                    except Exception as e:
+                        print(e)

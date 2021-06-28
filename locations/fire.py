@@ -1,6 +1,8 @@
 from datetime import datetime
 import time
 import random
+from init import *
+import importlib
 
 
 audio = ["music/Жуки - Батарейка.mp3", "music/quest-pistols-ty-tak-krasiva.mp3"]
@@ -38,61 +40,66 @@ def welcome(user, location, bot):
     hour = datetime.now().hour
 
     if 0 <= hour <= 6:
-        bot.send_message(user["chat_id"], "Вы подходите к кострищу, но все уже разошлись и костер потух. Приходите завтра.")
+        bot.send_message(user["chat_id"], "💨 Вы подходите к кострищу, но все уже разошлись и костер потух. Приходите завтра. Вы возвращаетесь на улицу.")
     elif 6 < hour < 22:
-        bot.send_message(user["chat_id"], "С 22 часов ночи начинаются посиделки у костра. Сейчас костер не горит.")
+        bot.send_message(user["chat_id"], "🕜 Посиделки у костра начинаются с 22 часов ночи. Сейчас костер не горит.")
     else:
-        bot.send_message(user['chat_id'], "Вы подходите к кострищу, садитесь на свободное место.\n"
+        bot.send_message(user['chat_id'], "🔥 Вы подходите к кострищу, садитесь на свободное место.\n"
                              "*🌭 /fry_sausage\n"
                              "*💬 /talk\n"
                              "*⭐ /star\n"
                              "*🎸 /play\n"
                              "*👻 /horror")
+    if 0 <= hour < 22:
+        location = change_location_by_id(user, "street")
+        try:
+            location_module = importlib.import_module(location['file'])
+            location_module.welcome(user, location, bot)
+        except Exception as e:
+            print(e)
+
+def event(*args):
+    pass
 
 def message(msg, user, location, neighbors, bot):
     hour = datetime.now().hour
 
-    if 1 < hour < 22:
-        bot.send_message(user["chat_id"], "С 22 часов ночи начинаются посиделки у костра. Сейчас костер не горит.")
-        return
-
     if "/fry_sausage" in msg.text:
         if "sausage" not in user['inventory']:
             user['inventory'].append("sausage")
-            bot.send_message(user["chat_id"], "Вы жарите сосиску.")
+            bot.send_message(user["chat_id"], "🔥 Вы жарите сосиску.")
         else:
-            bot.send_message(user["chat_id"], "У вас уже есть сосиска.")
+            bot.send_message(user["chat_id"], "🌭 У вас уже есть сосиска.")
 
     if "/talk" in msg.text:
-        bot.send_message(user["chat_id"], "Вы делитесь своими впечатлениями о прошедшем дне.")
+        bot.send_message(user["chat_id"], "🗣 Вы делитесь своими впечатлениями о прошедшем дне.")
 
         for neighbor in neighbors:
             if user["chat_id"] != neighbor["chat_id"]:
-                bot.send_message(neighbor["chat_id"], "{} делится впечатлениями о прошедшем дне.".format(user['name']))
+                bot.send_message(neighbor["chat_id"], "🗣 {} делится впечатлениями о прошедшем дне.".format(user['name']))
 
     if "/star" in msg.text:
-        bot.send_message(user["chat_id"], "Небо было чистым и все рассматривали полярную звезду.")
+        bot.send_message(user["chat_id"], "✨ Небо было чистым и все рассматривали полярную звезду.")
         for neighbor in neighbors:
             if user["chat_id"] != neighbor["chat_id"]:
-                bot.send_message(neighbor["chat_id"], "{} смотрит на звезды.".format(user['name']))
+                bot.send_message(neighbor["chat_id"], "✨ {} смотрит на звезды.".format(user['name']))
 
     if "/play" in msg.text:
          if "guitar" in user['inventory']:
 
-             bot.send_message(user["chat_id"], "Вы играете на гитаре и все подпевают...")
+             bot.send_message(user["chat_id"], "🎸 Вы играете на гитаре и все подпевают...")
              for neighbor in neighbors:
                  if user["chat_id"] != neighbor["chat_id"]:
-                     bot.send_message(neighbor["chat_id"], "{} играет на гитаре.".format(user['name']))
+                     bot.send_message(neighbor["chat_id"], "🎸 {} играет на гитаре.".format(user['name']))
                  # отправлять в чат случайную песню
                  bot.send_audio(neighbor["chat_id"], open(random.choice(audio), 'rb').read())
          else:
-             bot.send_message(user["chat_id"], "Вам нужна гитара. Гитару, кажется, видели в учебке.")
+             bot.send_message(user["chat_id"], "👀 Вам нужна гитара. Гитару, кажется, видели в учебке.")
 
 
     if "/horror" in msg.text:
         # найти в интернете несколько страшилок
         for neighbor in neighbors:
-            bot.send_message(neighbor["chat_id"], "{} рассказывает страшную историю.")
+            bot.send_message(neighbor["chat_id"], "👻 {} рассказывает страшную историю.")
             bot.send_message(neighbor["chat_id"], random.choice(horror_stories))
-            time.sleep(20)
-            bot.send_message(neighbor["chat_id"], "В процессе рассказа страшной истории все услышали шорох в лесу...")
+            bot.send_message(neighbor["chat_id"], "🌲 В процессе рассказа страшной истории все услышали шорох в лесу...")

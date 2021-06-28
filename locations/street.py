@@ -33,10 +33,6 @@ def message(msg, user, location, neighbors, bot):
                 bot.send_message(user['chat_id'], "👀 Вы слишком голодны для этого!")
                 return
 
-            if "punished" in user['states']:
-                bot.send_message(user['chat_id'], "👀 Вы деморализованы и не можете бросить капитошку...")
-                return
-
             if "waterball" not in user['inventory']:
                 bot.send_message(user['chat_id'], "👀 У вас нет капитошки!")
                 return

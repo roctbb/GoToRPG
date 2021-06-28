@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+
 from init import *
 import config
 import importlib
@@ -8,6 +10,20 @@ import threading
 
 def life_support():
     while True:
+        hour = datetime.now().hour
+
+        if hour == 1:
+            for user in users:
+                if "toxic" in user['states']:
+                    bot.send_message(user['chat_id'], "Фух, кажется, вас наконец отпускает. Вы больше не toxic.")
+                    user['states'].remove("toxic")
+                if "punished" in user['states']:
+                    bot.send_message(user['chat_id'], "Вы обдумали свое поведение и успокоились. Вы больше не punished.")
+                    user['states'].remove("punished")
+                if "medical_outlet" in user['states']:
+                    bot.send_message(user['chat_id'], "Медотвод больше не действует.")
+                    user['inventory'].remove("medical_outlet")
+
         for user in users:
             check_params(user)
 
@@ -76,6 +92,12 @@ def process_message(message):
 
     if "/locations" in message.text:
         bot.send_message(user['chat_id'], location_list())
+
+    if "/leaderboard" in message.text:
+        bot.send_message(user['chat_id'], leaderboard())
+
+    if "/help" in message.text:
+        help(user)
 
     if "/goto" in message.text:
         try:

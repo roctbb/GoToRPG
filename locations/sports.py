@@ -5,7 +5,7 @@ from datetime import datetime
 
 def welcome(user, location, bot):
     hour = datetime.now().hour
-    bot.send_message(user['chat_id'],'Здесь вы можете поиграть в волейбол 🏐')
+    bot.send_message(user['chat_id'],'Здесь вы можете поиграть в волейбол 🏐. Но будте аккуратнее, физическая активность требует энергии.')
 def message(msg, user, location, neighbors, bot):
     user['inventory'].append('ball')
     hour = datetime.now().hour
@@ -26,7 +26,7 @@ def event(users, location, bot):
                 if player['chat_id'] != user['chat_id']:
                     bot.send_message(player['chat_id'], "{} зарабатывает очко!".format(user['name']))
             bot.send_message(user['chat_id'], "Вы заработали очко!")
-            user['volley_points'] += 1
+            user['volleyball_points'] += 1
         else:
             bot.send_message(user['chat_id'], "Вы подаете мяч, но промахиваетесь.")
 

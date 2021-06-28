@@ -73,6 +73,7 @@ stickers = {
     "nikolay": "CAACAgIAAxkBAAIVGmDYmcLuaWX73R-rLVun5hLgOFKlAAK7AAMTKxwE_BmnnTxRwBwgBA"
 }
 
+
 def find_users_by_location(location_id):
     users_in_location = []
 
@@ -95,6 +96,7 @@ def find_user(chat_id):
         if user['chat_id'] == chat_id:
             return user
     return None
+
 
 def find_user_by_name(name):
     for user in users:
@@ -128,6 +130,13 @@ def init(chat_id):
     users.append(user)
     return user
 
+def leaderboard():
+    top_coders = list(sorted(users, key=lambda x: -x['code_lines']))[:5]
+    top_sports = list(sorted(users, key=lambda x: -x['volleyball_points']))[:5]
+
+    return "🏆 Топ программистов:\n\n {}\n\n🏆 Топ спортсменов:\n\n {}".format('\n'.join(top_coders), '\n'.join(top_coders))
+
+
 
 def location_list():
     descrition = '🗺 Локации:\n'
@@ -137,10 +146,20 @@ def location_list():
 
     return descrition
 
+
 def save_name(user, name):
     user["name"] = name
     user["location"] = "street"
-    bot.send_message(user["chat_id"], "🤝 Рад познакомиться с тобой, {}! Чтобы перейти в локацию, напиши /goto ЛОКАЦИЯ, а чтобы узнать статус персонажа - введи /info.\n\n{}".format(name, location_list()))
+    bot.send_message(user["chat_id"], "🤝 Рад познакомиться с тобой, {}! .\n\n{}".format(name, location_list()))
+    help(user)
+
+
+def help(user):
+    bot.send_message(user["chat_id"], "Помощь:\n\n"
+                                      "* /goto ЛОКАЦИЯ - перейти в локацию;\n"
+                                      "* /info - статус персонажа;\n"
+                                      "* /leaderboard - топ игроков;\n"
+                                      "* /locations - список локаций.")
 
 
 def change_location_by_id(user, location_id):
@@ -164,6 +183,7 @@ def change_location_by_id(user, location_id):
         bot.send_message(user["chat_id"], description)
 
     return location
+
 
 def save():
     with open('users.json', 'w') as file:
