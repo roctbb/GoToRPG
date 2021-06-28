@@ -2,9 +2,7 @@ from datetime import datetime
 import time
 from random import randint
 
-users[hunterhouse].append(0)
 def welcome(user, location, bot):
-    if users[hunterhouse]==0:
         bot.send_message(user,'Добро пожаловать в дом охотника.Здесь ты можешь получить капитошку(/waterball),найти монетку(/look),взять мяч(/take_ball),положить мяч(/give_ball)')
 
 def event(users, location, bot):
