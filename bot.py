@@ -14,6 +14,13 @@ def life_support():
             # еда
             if user['eat_points'] != 0:
                 user['eat_points'] -= 1
+            else:
+                bot.send_message(user['chat_id'], "Вы очень хотите есть...")
+
+            if user['sleep_points'] != 0:
+                user['sleep_points'] -= 1
+            else:
+                bot.send_message(user['chat_id'], "Вы очень хотите спать...")
 
             # заболевание
             if "wet" in user['states'] and "sick" not in user['states'] and random.randint(1, 20) == 1:
