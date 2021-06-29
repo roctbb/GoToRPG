@@ -102,7 +102,7 @@ def find_user(chat_id):
 
 def find_user_by_name(name):
     for user in users:
-        if user['name'] == name:
+        if user.get('name') == name:
             return user
     return None
 
