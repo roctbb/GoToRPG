@@ -38,7 +38,6 @@ def message(msg, user, location, neighbors, bot):
         return
     elif "/shower" in msg.text:
         bot.send_message(user["chat_id"], "Вы пошли в душ.")
-        time.sleep(10)
         bot.send_message(user['chat_id'], "Вы стали чище! Теперь на Вас 99 клопов вместо 100")
 
         if "wet" in user['states']:
