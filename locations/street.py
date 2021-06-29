@@ -26,7 +26,7 @@ def message(msg, user, location, neighbors, bot):
             cmd, name = msg.text.split()
             target = find_user_by_name(name)
 
-            if not target:
+            if not target or target['location'] != user['location']:
                 bot.send_message(user['chat_id'], "👀 Нет такого пользователя!")
                 return
 
