@@ -134,8 +134,11 @@ def init(chat_id):
 
 
 def leaderboard():
-    top_coders = list(sorted(users, key=lambda x: -x['code_lines']))[:5]
-    top_sports = list(sorted(users, key=lambda x: -x['volleyball_points']))[:5]
+
+    actual_users = list(filter(lambda x: 'code_lines' in x and 'volleyball_points' in x, users))
+
+    top_coders = list(sorted(actual_users, key=lambda x: -x['code_lines']))[:5]
+    top_sports = list(sorted(actual_users, key=lambda x: -x['volleyball_points']))[:5]
 
     return "🏆 Топ программистов:\n\n {}\n\n🏆 Топ спортсменов:\n\n {}".format(
         '\n'.join(map(lambda x: x['name'], top_coders)), '\n'.join(map(lambda x: x['name'], top_sports)))
