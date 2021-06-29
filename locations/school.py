@@ -43,6 +43,10 @@ def message(msg, user, location, neighbors, bot):
             user['inventory'].append("guitar")
             for neighbor in neighbors:
                 bot.send_message(neighbor['chat_id'], "{} поднял гитару".format(user['name']))
+    else:
+        for neighbor in neighbors:
+            if neighbor["chat_id"] != user["chat_id"]:
+                bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
 
 
 def event(users, location, bot):
