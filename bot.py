@@ -134,4 +134,8 @@ def process_message(message):
 life_thread = threading.Thread(target=life_support)
 life_thread.start()
 
-bot.polling()
+try:
+    while True:
+        bot.polling()
+except Exception as e:
+    print(e)
