@@ -2,9 +2,10 @@ from datetime import datetime
 import random
 from init import *
 import importlib
+import pytz
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "dirty" in user['states']:
         bot.send_message(user["chat_id"], "Вы испачкались, в таком виде вас не пускают. Вы перемещаетесь на улицу.")
@@ -22,8 +23,8 @@ def welcome(user, location, bot):
 
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
-    minute = datetime.now().minute
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
+    minute = datetime.now(pytz.timezone('Europe/Moscow')).minute
     # поднятие / оставление гитары
     if "/give_guitar" in msg.text:
         if "guitar" in user['inventory']:
@@ -45,7 +46,7 @@ def message(msg, user, location, neighbors, bot):
 
 
 def event(users, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     # пояление Николая
     if 0 < hour < 8:

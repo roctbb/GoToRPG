@@ -1,11 +1,12 @@
 import importlib
 from datetime import datetime
 import random
+import pytz
 
 from init import *
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if 0 < hour < 7:
         bot.send_message(user['chat_id'], "🌚 Вы вышли прогуляться на улицу. Сейчас ночь и находиться вне домика нельзя, остерегайтесь Николая! Если вас поймают, то вас накажут и вы расстроитесь.\n\n"
@@ -18,7 +19,7 @@ def welcome(user, location, bot):
                          "* /sleep - спать.")
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "/waterball" in msg.text:
         try:
@@ -97,7 +98,7 @@ def event(users, location, bot):
                 user['states'].append('wet')
                 bot.send_message(user['chat_id'], '💦 Вы намокли. Чтобы просохнуть, примите душ.')
 
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     # пояление Николая
     if 0 < hour < 7:

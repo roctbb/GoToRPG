@@ -2,6 +2,7 @@ from datetime import datetime
 import random
 import importlib
 from init import *
+import pytz
 
 def welcome (user, location,bot):
     bot.send_message(user["chat_id"], """🏥 Добро пожаловать в медпункт!\n\n 
@@ -11,7 +12,7 @@ def welcome (user, location,bot):
     💚 напишите /heal, чтобы подлечиться""")
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
 
 
@@ -87,8 +88,8 @@ def message(msg, user, location, neighbors, bot):
                 bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
 
 def event(users, location, bot):
-    hour = datetime.now().hour
-    minute = datetime.now().minute
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
+    minute = datetime.now(pytz.timezone('Europe/Moscow')).minute
 
     if 10 < hour < 14 or 14 < hour < 19:
         for user in users:

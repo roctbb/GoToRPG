@@ -3,6 +3,7 @@ import time
 from random import randint
 from init import *
 import importlib
+import pytz
 
 def welcome(user, location, bot):
     bot.send_message(user['chat_id'], "Вы выходите за калитку и попадаете в лес. В лесу много ягод 🍓 и грибов 🍄. Можешь их поискать, но ночью тут опасно...\n\n"
@@ -41,7 +42,7 @@ def message(msg, user, location, neighbors, bot):
             bot.send_message(user['chat_id'], "Ты не нашёл грибочков 😢")
 
 def event(neighbors, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     for user in neighbors:
         if "dirty" not in user['states']:

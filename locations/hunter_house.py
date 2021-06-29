@@ -6,9 +6,10 @@ import time
 from random import randint
 from init import *
 import importlib
+import pytz
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if 7 <= hour <= 23:
         bot.send_message(user['chat_id'],
@@ -40,7 +41,7 @@ def welcome(user, location, bot):
             print(e)
 
 def event(users, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
     if 10 < hour < 14 or 14 < hour < 19:
         for user in users:
             x = random.randint(0, 101)
@@ -74,7 +75,7 @@ def event(users, location, bot):
 
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "/waterball" in msg.text:
         if user['inventory'].count("waterball") > 2:

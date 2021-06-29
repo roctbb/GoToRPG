@@ -2,10 +2,11 @@ from datetime import datetime
 import random
 import importlib
 from init import *
+import pytz
 
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
     if hour > 20 or hour < 8:
         bot.send_message(user["chat_id"], "Администрация закрыта, приходите завтра. Вы перемещаетесь на улицу.")
 
@@ -30,7 +31,7 @@ def welcome(user, location, bot):
 
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "/icecream" in msg.text:
         if 'coin' in user['inventory']:
@@ -46,7 +47,7 @@ def message(msg, user, location, neighbors, bot):
 
 
 def event(users, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if hour > 20 or hour < 8:
         for user in users:

@@ -10,7 +10,7 @@ import threading
 
 def life_support():
     while True:
-        hour = datetime.now().hour
+        hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
         if hour == 1:
             for user in users:

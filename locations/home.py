@@ -4,6 +4,7 @@ import time
 from random import randint
 from init import *
 import importlib
+import pytz
 
 
 def welcome(user, location, bot):
@@ -15,7 +16,7 @@ def welcome(user, location, bot):
 
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "/look" in msg.text:
         x = randint(0, 101)
@@ -102,8 +103,8 @@ def message(msg, user, location, neighbors, bot):
 
 
 def event(users, location, bot):
-    hour = datetime.now().hour
-    minute = datetime.now().minute
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
+    minute = datetime.now(pytz.timezone('Europe/Moscow')).minute
 
     if 10 < hour < 14 or 14 < hour < 19:
         for user in users:

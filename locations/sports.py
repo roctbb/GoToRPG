@@ -3,13 +3,14 @@ import time
 from init import *
 from datetime import datetime
 import importlib
+import pytz
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
     bot.send_message(user['chat_id'],'Здесь вы можете поиграть в волейбол 🏐. Но будте аккуратнее, физическая активность требует энергии.')
 def message(msg, user, location, neighbors, bot):
     user['inventory'].append('ball')
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
     if 'ball' in user['inventory']:
         if len(neighbors) >0:
             bot.send_message(user["chat_id"], 'Вы решили поиграть')
@@ -34,7 +35,7 @@ def event(users, location, bot):
         user['sleep_points'] -= 5
 
     # пояление Николая
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
     if 0 < hour < 7:
         if random.randint(1, 3) == 1:
             for user in users:

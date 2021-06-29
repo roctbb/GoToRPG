@@ -3,6 +3,7 @@ import time
 import random
 from init import *
 import importlib
+import pytz
 
 
 audio = ["music/Жуки - Батарейка.mp3", "music/quest-pistols-ty-tak-krasiva.mp3"]
@@ -37,7 +38,7 @@ horror_stories = ["""Явь. Девочке 5 лет. У нее 3 сестры, 
 ]
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if 0 <= hour <= 6:
         bot.send_message(user["chat_id"], "💨 Вы подходите к кострищу, но все уже разошлись и костер потух. Приходите завтра. Вы возвращаетесь на улицу.")
@@ -62,7 +63,7 @@ def event(*args):
     pass
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "/fry_sausage" in msg.text:
         if "sausage" not in user['inventory']:

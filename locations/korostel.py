@@ -2,10 +2,11 @@ from datetime import datetime
 import random
 from init import *
 import importlib
+import pytz
 
 
 def welcome(user, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "dirty" in user['states']:
         bot.send_message(user["chat_id"], "Вы испачкались, в таком виде вас не пускают. Вы перемещаетесь на улицу.")
@@ -16,6 +17,7 @@ def welcome(user, location, bot):
             location_module.welcome(user, location, bot)
         except Exception as e:
             print(e)
+        return
 
     if hour == 10:
         welcome_text = "🍱 Добро пожаловать в Коростель! Сейчас завтрак и вы можете позавтракать. Аккуратнее с перееданием!\n\n" \
@@ -46,7 +48,7 @@ def welcome(user, location, bot):
 
 
 def message(msg, user, location, neighbors, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if "/breakfast" in msg.text:
         if hour == 10:
@@ -129,7 +131,7 @@ def message(msg, user, location, neighbors, bot):
                 bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
 
 def event(users, location, bot):
-    hour = datetime.now().hour
+    hour = datetime.now(pytz.timezone('Europe/Moscow')).hour
 
     if hour > 20:
         for user in users:
