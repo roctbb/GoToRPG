@@ -93,16 +93,16 @@ def process_message(message):
         bot.send_message(user['chat_id'], description)
         return
 
-    if "/locations" in message.text:
+    elif "/locations" in message.text:
         bot.send_message(user['chat_id'], location_list())
 
-    if "/leaderboard" in message.text:
+    elif "/leaderboard" in message.text:
         bot.send_message(user['chat_id'], leaderboard())
 
-    if "/help" in message.text:
+    elif "/help" in message.text:
         help(user)
 
-    if "/goto" in message.text:
+    elif "/goto" in message.text:
         try:
             cmd, location_id = message.text.split(' ')
             location = change_location_by_id(user, location_id)
@@ -118,15 +118,16 @@ def process_message(message):
             print(e)
             bot.send_message(user["chat_id"], "👀 Укажите название локации.")
             return
+    else:
 
-    location = find_location(user['location'])
-    users = find_users_by_location(user['location'])
+        location = find_location(user['location'])
+        users = find_users_by_location(user['location'])
 
-    try:
-        location_module = importlib.import_module(location['file'])
-        location_module.message(message, user, location, users, bot)
-    except Exception as e:
-        print(e)
+        try:
+            location_module = importlib.import_module(location['file'])
+            location_module.message(message, user, location, users, bot)
+        except Exception as e:
+            print(e)
 
     save()
 
