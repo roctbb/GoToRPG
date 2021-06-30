@@ -19,7 +19,9 @@ def welcome(user, location, bot):
     else:
         bot.send_message(user['chat_id'], "🏫 Вы в учебке. Находясь здесь вы постепенно учитесь писать код.\n\n"
                                           "* /give_guitar - положить гитару;\n"
-                                          "* /take_guitar - взять гитару.\n")
+                                          "* /take_guitar - взять гитару.\n"
+                                          "* /take_stick - взять палку.\n"
+                                          "* /give_stick - положить палку;\n")
 
 
 def message(msg, user, location, neighbors, bot):
@@ -43,10 +45,29 @@ def message(msg, user, location, neighbors, bot):
             user['inventory'].append("guitar")
             for neighbor in neighbors:
                 bot.send_message(neighbor['chat_id'], "{} поднял гитару".format(user['name']))
+    elif "/give_stick" in msg.text:
+        if "stick" in user['inventory']:
+            location['inventory'].append("stick")
+            user['inventory'].remove("stick")
+
+            for neighbor in neighbors:
+                bot.send_message(neighbor["chat_id"], "{} вернул дубину".format(user['name']))
+        else:
+            bot.send_message(user["chat_id"], "У вас нет дубину.")
+    elif "/take_stick" in msg.text:
+        if "stick" not in location['inventory']:
+            bot.send_message(user["chat_id"], "Дубину уже кто-то взял.")
+        else:
+            location['inventory'].remove("stick")
+            user['inventory'].append("stick")
+            for neighbor in neighbors:
+                bot.send_message(neighbor['chat_id'], "{} поднял дубину".format(user['name']))
     else:
         for neighbor in neighbors:
             if neighbor["chat_id"] != user["chat_id"]:
                 bot.send_message(neighbor["chat_id"], "{}: {}".format(user["name"], msg.text))
+                
+    
 
 
 def event(users, location, bot):
